@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+
+    body{
+        background-image: url(6785d035e5485d63e80c3c121899ca88.jpg);
+        background-repeat: no-repeat;
+    }
+    
+    #myDiv{
+     position: absolute;
+      width: 100px;
+      height: 100;
+        left: 1px;
+        top:1px;
+     
+    
+    }
+   
+    </style>
+    
+ 
+
+</head>
+<body>
+
+
+
+    <img id="myDiv" src="16_tanki-armata-320.png" >
+
+
+       
+<script>
+      var id = -1;
+    var lastX = 1;
+    var lastY = 1;
+    
+    
+    //запрет правого клика
+    
+            var message="Правая кнопка мыши отключена!";
+        function click(e) {
+           if (document.all) {    // IE
+              if (event.button == 2) {    // Чтобы отключить левую кнопку поставьте цифру 1
+                  alert(message);    // чтобы отключить среднюю кнопку поставьте цифру 1
+                 }
+              }
+           if (document.layers) { // NC
+              if (e.which == 3) {
+                  alert(message);
+             }
+              }
+        }
+        if (document.layers)
+           {document.captureEvents(Event.MOUSEDOWN);}
+        document.onmousedown=click;
+        document.oncontextmenu=function(e){return false};
+    
+    //запрет правого клика - конец
+    
+    
+    
+    //передвижение такнка 
+    document.getElementById("myDiv").addEventListener('click', function (e) {
+  
+  var div = e.target
+  var rect = div.getBoundingClientRect()
+  var dx = e.pageX - rect.left, dy = e.pageY - rect.top
+ 
+  clearTimeout(id)
+  id = -1;
+        
+  div.style.background = 'silver'
+  
+  document.addEventListener('click', function handler(e) {
+  
+    //div.style.left = e.pageX - dx + 'px'
+   // div.style.top = e.pageY - dy + 'px'
+    div.style.background = ''
+  
+    var i = lastX;
+     var j = lastY;
+      
+      if(id == -1){
+      id=   setInterval(a, 50);
+          
+    
+      function a(){
+          if(i != ( e.pageX - dx) ){
+              if(lastX >  ( e.pageX - dx)){
+                i --;
+              }
+               if(lastX <  ( e.pageX - dx)){
+                i ++;
+              }
+             
+          }
+          if( j != (e.pageY - dy )){
+              if(lastY >  ( e.pageY - dy)){
+                j --;
+              }
+               if(lastY <  ( e.pageY - dy)){
+                j ++;
+              }
+          }
+          if(j == (e.pageY - dy ) && i ==( e.pageX - dx))
+          {
+               clearTimeout(id)
+              id = -1;
+
+          } 
+          
+          lastX = i;
+          lastY = j;
+              
+         div.style.left = i + "px";
+         div.style.top = j + "px";
+      }
+      }
+      
+      document.removeEventListener('click', handler, true)
+    event.stopPropagation()
+  }, true)
+})
+    
+    </script>
+
+</body>
+</html>
