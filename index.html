@@ -17,6 +17,15 @@
      
     
     }
+
+
+    #myDiv2{
+      position: absolute;
+      width: 100px;
+      height: 100;
+        left: 1px;
+        top:  90px;
+    }
    
     </style>
     
@@ -28,7 +37,7 @@
 
 
     <img id="myDiv" src="16_tanki-armata-320.png" >
-
+    <img id="myDiv2" src="btr-82-1.png" >
 
        
 <script>
@@ -62,6 +71,7 @@
     
     
     //передвижение такнка 
+    
     document.getElementById("myDiv").addEventListener('click', function (e) {
   
   var div = e.target
@@ -71,7 +81,7 @@
   clearTimeout(id)
   id = -1;
         
-  div.style.background = 'silver'
+  div.style.background = ''
   
   document.addEventListener('click', function handler(e) {
   
@@ -123,6 +133,79 @@
     event.stopPropagation()
   }, true)
 })
+
+//передвижение бтр
+
+var lastX_btr = 1;
+var lastY_btr = 90;
+
+document.getElementById("myDiv2").addEventListener('click', function (e) {
+  
+  var div = e.target
+  var rect = div.getBoundingClientRect()
+  var dx = e.pageX - rect.left, dy = e.pageY - rect.top
+ 
+  clearTimeout(id)
+  id = -1;
+        
+  div.style.background = ''
+  
+  document.addEventListener('click', function handler(e) {
+  
+    //div.style.left = e.pageX - dx + 'px'
+   // div.style.top = e.pageY - dy + 'px'
+    div.style.background = ''
+  
+    var i = lastX_btr;
+     var j = lastY_btr;
+      
+      if(id == -1){
+      id=   setInterval(a, 10);
+          
+    
+      function a(){
+          if(i != ( e.pageX - dx) ){
+              if(lastX_btr >  ( e.pageX - dx)){
+                i --;
+              }
+               if(lastX_btr <  ( e.pageX - dx)){
+                i ++;
+              }
+             
+          }
+          if( j != (e.pageY - dy )){
+              if(lastY_btr >  ( e.pageY - dy)){
+                j --;
+              }
+               if(lastY_btr <  ( e.pageY - dy)){
+                j ++;
+              }
+          }
+          if(j == (e.pageY - dy ) && i ==( e.pageX - dx))
+          {
+               clearTimeout(id)
+              id = -1;
+
+          } 
+          
+          lastX_btr = i;
+          lastY_btr = j;
+              
+         div.style.left = i + "px";
+         div.style.top = j + "px";
+      }
+      }
+      
+      document.removeEventListener('click', handler, true)
+    event.stopPropagation()
+  }, true)
+})
+
+
+
+
+
+
     
     </script>
 
